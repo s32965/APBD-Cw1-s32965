@@ -2,12 +2,8 @@ using APBD_Cw1_s32965.Models;
 using APBD_Cw1_s32965.Services.Equipments;
 using APBD_Cw1_s32965.Services.Rentals;
 
-namespace APBD_Cw1_s32965;
-
-public static class Util 
-{
-    public static void Raport(EquipmentService equipmentService, RentalService rentalService) 
-    {
+public static class Util {
+    public static void Raport(IEquipmentService equipmentService, IRentalService rentalService) {
         Console.WriteLine("SYSTEM REPORT:\n");
 
         var allEquipment = equipmentService.GetEquipment();

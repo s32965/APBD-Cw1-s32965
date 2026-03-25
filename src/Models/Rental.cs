@@ -34,7 +34,7 @@ public class Rental(DateTime rentDate, DateTime agreedReturnDate, User user, Equ
   }
 
   public double CalculateOverdue() {
-    return ((DateTime.Now - this.AgreedReturnDate).Days * this.Item.CostPerDay) * this.Item.OverdueMultiplier;
+    return ((DateTime.Now - this.AgreedReturnDate).Days * this.Item.CostPerDay) * OverdueMultiplier;
   }
 
 }

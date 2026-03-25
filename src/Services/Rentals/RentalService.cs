@@ -104,17 +104,17 @@ public class RentalService : IRentalService {
     return results;
   }
 
-  public Rental GetRentById(int id) {
+  public Rental GetRentById(int rId) {
     Rental? result = null;
 
     foreach (Rental r in rents) {
-      if (r.Id == id) {
+      if (r.Id == rId) {
         result = r;
       }
     }
 
     if (result is null) {
-      throw new Exception($"No rent with id {id}");
+      throw new Exception($"No rent with id {rId}");
     }
 
     return result;
