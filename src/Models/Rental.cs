@@ -29,7 +29,6 @@ public class Rental(DateTime rentDate, DateTime agreedReturnDate, User user, Equ
       this.WasReturnedOnTime = false;
     }
     
-    this.Item.EquipmentStatus = EquipmentStatus.Available;
     this.IsReturned = true;
     this.ActualReturnDate = now;
   }

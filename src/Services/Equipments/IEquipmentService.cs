@@ -6,5 +6,6 @@ public interface IEquipmentService {
   public void AddItem(Equipment equipment);
   public List<Equipment> GetEquipment();
   public void ListAllEquipment();
-  public List<Equipment> GetAvailableEquipment(); 
+  public List<Equipment> GetAvailableEquipment();
+  public void SetUnavailable(int id);
 }

@@ -36,4 +36,13 @@ public class EquipmentService : IEquipmentService {
 
     return results;
   }
+
+  public void SetUnavailable(int id) {
+    foreach(Equipment e in items) {
+      if (e.Id == id) {
+        e.EquipmentStatus = EquipmentStatus.Unavailable;
+        break;
+      }
+    }
+  }
 }

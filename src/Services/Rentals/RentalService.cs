@@ -7,7 +7,7 @@ namespace APBD_Cw1_s32965.Services.Rentals;
 public class RentalService : IRentalService {
   private readonly List<Rental> rents = [];
 
-  public void RentItem(DateTime returnDate, User user, Equipment item) {
+  public int RentItem(DateTime returnDate, User user, Equipment item) {
     if (item.EquipmentStatus != EquipmentStatus.Available) {
       throw new ItemUnavailableException(item.Id);
     }
@@ -23,9 +23,32 @@ public class RentalService : IRentalService {
       throw new TooManyRentsException(user);
     }
 
-    item.EquipmentStatus = EquipmentStatus.Unavailable;
     Rental rental = new Rental(DateTime.Now, returnDate, user, item);
     rents.Add(rental);
+
+    return rental.Id;
+  }
+
+  public int RentItem(DateTime rentTime, DateTime returnDate, User user, Equipment item) {
+    if (item.EquipmentStatus != EquipmentStatus.Available) {
+      throw new ItemUnavailableException(item.Id);
+    }
+
+    int userRents = 0;
+    foreach(Rental r in rents) {
+      if (!r.IsReturned && r.User == user) {
+        userRents++;
+      }
+    }
+
+    if (userRents >= user.GetMaxReservations()) {
+      throw new TooManyRentsException(user);
+    }
+
+    Rental rental = new Rental(rentTime, returnDate, user, item);
+    rents.Add(rental);
+
+    return rental.Id;
   }
 
   public void ReturnItem(int rentalId) {
@@ -48,7 +71,7 @@ public class RentalService : IRentalService {
     List<Rental> results = [];
     
     foreach(Rental r in rents) {
-      if (!r.IsReturned) {
+  if (!r.IsReturned) {
         results.Add(r);
       }
     }
@@ -79,5 +102,21 @@ public class RentalService : IRentalService {
     }
 
     return results;
+  }
+
+  public Rental GetRentById(int id) {
+    Rental? result = null;
+
+    foreach (Rental r in rents) {
+      if (r.Id == id) {
+        result = r;
+      }
+    }
+
+    if (result is null) {
+      throw new Exception($"No rent with id {id}");
+    }
+
+    return result;
   }
 }
