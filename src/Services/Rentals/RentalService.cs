@@ -1,5 +1,6 @@
 using APBD_Cw1_s32965.Models;
 using APBD_Cw1_s32965.Enums;
+using APBD_Cw1_s32965.Exceptions;
 
 namespace APBD_Cw1_s32965.Services.Rentals;
 
@@ -8,8 +9,7 @@ public class RentalService : IRentalService {
 
   public void RentItem(DateTime returnDate, User user, Equipment item) {
     if (item.EquipmentStatus != EquipmentStatus.Available) {
-      Console.WriteLine("Item " + item.Id + " is unavailable.");
-      return;
+      throw new ItemUnavailableException(item.Id);
     }
 
     int userRents = 0;
@@ -20,8 +20,7 @@ public class RentalService : IRentalService {
     }
 
     if (userRents >= user.GetMaxReservations()) {
-      Console.WriteLine("User has too many rented items.");
-      return;
+      throw new TooManyRentsException(user);
     }
 
     Rental rental = new Rental(DateTime.Now, returnDate, user, item);
@@ -38,8 +37,7 @@ public class RentalService : IRentalService {
     }
 
     if (rental is null) {
-      Console.WriteLine("There is no rent with id: " + rentalId);
-      return;
+      throw new NoRentWithGivenIdException(rentalId);
     }
 
     rental.Return();
