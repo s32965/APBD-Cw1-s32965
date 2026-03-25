@@ -15,7 +15,8 @@ public class RentalService : IRentalService {
     int userRents = 0;
     foreach(Rental r in rents) {
       if (!r.IsReturned && r.User == user) {
-        userRents++;      
+        userRents++;
+      }
     }
 
     if (userRents >= user.GetMaxReservations()) {
