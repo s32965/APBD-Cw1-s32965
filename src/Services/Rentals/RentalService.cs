@@ -23,6 +23,7 @@ public class RentalService : IRentalService {
       throw new TooManyRentsException(user);
     }
 
+    item.EquipmentStatus = EquipmentStatus.Unavailable;
     Rental rental = new Rental(DateTime.Now, returnDate, user, item);
     rents.Add(rental);
   }

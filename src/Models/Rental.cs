@@ -1,3 +1,5 @@
+using APBD_Cw1_s32965.Enums;
+
 namespace APBD_Cw1_s32965.Models;
 
 public class Rental(DateTime rentDate, DateTime agreedReturnDate, User user, Equipment item) {
@@ -26,9 +28,14 @@ public class Rental(DateTime rentDate, DateTime agreedReturnDate, User user, Equ
       this.ActualCost = this.PredictedCost + ((now - this.AgreedReturnDate).Days * item.CostPerDay) * OverdueMultiplier;
       this.WasReturnedOnTime = false;
     }
-
+    
+    this.Item.EquipmentStatus = EquipmentStatus.Available;
     this.IsReturned = true;
     this.ActualReturnDate = now;
+  }
+
+  public double CalculateOverdue() {
+    return ((DateTime.Now - this.AgreedReturnDate).Days * this.Item.CostPerDay) * this.Item.OverdueMultiplier;
   }
 
 }
